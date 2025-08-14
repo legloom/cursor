@@ -1,0 +1,140 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  role          String    @default("staff") // staff | manager | admin
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+  stores        UserStore[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Store {
+  id            String          @id @default(cuid())
+  name          String
+  locale        String          @default("en")
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  kiosks        Kiosk[]
+  searches      Search[]
+  products      Product[]
+  users         UserStore[]
+  recommendations Recommendation[]
+}
+
+model Kiosk {
+  id        String   @id @default(cuid())
+  storeId   String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  searches  Search[]
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  storeId     String
+  name        String
+  sku         String?
+  category    String?
+  aisle       String?
+  shelf       String?
+  inStock     Boolean  @default(true)
+  price       Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  store       Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  searches    Search[]
+}
+
+model Search {
+  id          String   @id @default(cuid())
+  storeId     String
+  kioskId     String?
+  term        String
+  category    String?
+  found       Boolean
+  productId   String?
+  sessionId   String?
+  createdAt   DateTime @default(now())
+  store       Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  kiosk       Kiosk?   @relation(fields: [kioskId], references: [id], onDelete: SetNull)
+  product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+}
+
+model Recommendation {
+  id          String   @id @default(cuid())
+  storeId     String
+  type        String   // "restock" | "reposition" | "promote"
+  title       String
+  description String
+  payload     String   // JSON as string for SQLite
+  confidence  Float    // 0–1
+  status      String   @default("open") // open | accepted | snoozed | dismissed
+  impact      String?  // expected impact description
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  store       Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+}
+
+model UserStore {
+  id      String @id @default(cuid())
+  userId  String
+  storeId String
+  role    String @default("staff") // staff | manager | admin
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  store   Store  @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, storeId])
+}
