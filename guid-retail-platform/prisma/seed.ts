@@ -222,12 +222,12 @@ async function main() {
       type: 'restock',
       title: 'Restock Organic Spinach',
       description: 'High demand with 45 searches in the past week but currently out of stock',
-      payload: JSON.stringify({
+      payload: {
         productName: 'Organic Spinach',
         currentStock: 0,
         recommendedOrder: 24,
         priority: 'high'
-      }),
+      },
       confidence: 0.92,
       impact: 'Could recover $280 in lost sales per week',
       storeId: store.id,
@@ -236,12 +236,12 @@ async function main() {
       type: 'reposition',
       title: 'Move Greek Yogurt to Eye Level',
       description: 'Popular item currently placed too low, causing customer search difficulty',
-      payload: JSON.stringify({
+      payload: {
         productName: 'Greek Yogurt - Vanilla',
         currentLocation: 'A1-C1',
         recommendedLocation: 'A1-B2',
         reason: 'eye_level_optimization'
-      }),
+      },
       confidence: 0.78,
       impact: 'Estimated 15% increase in discovery rate',
       storeId: store.id,
@@ -250,12 +250,12 @@ async function main() {
       type: 'promote',
       title: 'Feature Quinoa in Health Food Display',
       description: 'Growing search trend for quinoa suggests increasing health-conscious customer base',
-      payload: JSON.stringify({
+      payload: {
         productName: 'Quinoa (organic)',
         currentLocation: 'D1-C1',
         promotionType: 'end_cap_display',
         duration: '2_weeks'
-      }),
+      },
       confidence: 0.85,
       impact: 'Projected 25% sales increase for featured period',
       storeId: store.id,
@@ -264,12 +264,12 @@ async function main() {
       type: 'restock',
       title: 'Increase Baby Wipes Inventory',
       description: 'Consistently high demand, often running low by mid-week',
-      payload: JSON.stringify({
+      payload: {
         productName: 'Baby Wipes - Sensitive',
         currentStock: 12,
         recommendedOrder: 48,
         priority: 'medium'
-      }),
+      },
       confidence: 0.88,
       impact: 'Prevent stockouts affecting young families',
       storeId: store.id,

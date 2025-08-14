@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = env("DATABASE_PROVIDER")
   url      = env("DATABASE_URL")
 }
 
@@ -16,12 +16,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?
-  access_token      String?
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
+  id_token          String? @db.Text
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -119,7 +119,7 @@ model Recommendation {
   type        String   // "restock" | "reposition" | "promote"
   title       String
   description String
-  payload     String   // JSON as string for SQLite
+  payload     Json
   confidence  Float    // 0–1
   status      String   @default("open") // open | accepted | snoozed | dismissed
   impact      String?  // expected impact description
