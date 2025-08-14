@@ -60,9 +60,6 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
   body {
     @apply bg-background text-foreground;
   }
@@ -90,12 +87,12 @@
   }
   
   .btn-secondary {
-    @apply border border-border bg-white hover:bg-gray-50 text-gray-900 rounded-xl px-5 py-3 font-medium transition-colors duration-200;
+    @apply border border-gray-200 bg-white hover:bg-gray-50 text-gray-900 rounded-xl px-5 py-3 font-medium transition-colors duration-200;
   }
   
   /* Premium card styles */
   .card-premium {
-    @apply bg-white border border-border rounded-2xl shadow-sm hover:shadow-premium transition-shadow duration-300;
+    @apply bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-premium transition-shadow duration-300;
   }
   
   /* KPI card styles */

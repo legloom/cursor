@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { 
   Brain, 
   Package, 
@@ -9,7 +9,6 @@ import {
   CheckCircle, 
   Clock, 
   X,
-  AlertCircle,
   Star
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -66,7 +65,7 @@ export default function RecommendationsTab({ storeId }: RecommendationsTabProps)
   const [filter, setFilter] = useState<'all' | 'open' | 'accepted' | 'snoozed' | 'dismissed'>('all')
   const [typeFilter, setTypeFilter] = useState<'all' | 'restock' | 'reposition' | 'promote'>('all')
 
-  const fetchRecommendations = async () => {
+  const fetchRecommendations = useCallback(async () => {
     try {
       setIsLoading(true)
       const params = new URLSearchParams({ storeId })
@@ -85,11 +84,11 @@ export default function RecommendationsTab({ storeId }: RecommendationsTabProps)
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [storeId, filter, typeFilter])
 
   useEffect(() => {
     fetchRecommendations()
-  }, [storeId, filter, typeFilter])
+  }, [fetchRecommendations])
 
   const handleAction = async (id: string, action: 'accept' | 'snooze' | 'dismiss') => {
     try {

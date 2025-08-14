@@ -274,7 +274,7 @@ export default function SearchInterface() {
                     Product not found
                   </h3>
                   <p className="text-gray-600 mb-6">
-                    We couldn't find "{searchTerm}" in our current inventory.
+                    We couldn&apos;t find &quot;{searchTerm}&quot; in our current inventory.
                   </p>
                   {!showNotFoundForm ? (
                     <Button

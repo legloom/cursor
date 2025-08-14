@@ -137,6 +137,7 @@ export async function GET(request: NextRequest) {
     const limitNum = parseInt(limit)
     const skip = (pageNum - 1) * limitNum
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = { storeId }
     
     if (category) where.category = category

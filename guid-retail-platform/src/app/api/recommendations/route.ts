@@ -11,6 +11,7 @@ export async function GET(request: NextRequest) {
     const validatedQuery = recommendationQuerySchema.parse(queryData)
     const { storeId, status, type } = validatedQuery
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = { storeId }
     if (status) where.status = status
     if (type) where.type = type

@@ -3,20 +3,16 @@ import { prisma } from '@/lib/prisma'
 import { recommendationActionSchema } from '@/lib/validations'
 import { z } from 'zod'
 
-interface Params {
-  id: string
-}
-
 export async function POST(
   request: NextRequest,
-  { params }: { params: Params }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params
+    const { id } = await params
     const body = await request.json()
     const validatedData = recommendationActionSchema.parse(body)
     
-    const { action, notes } = validatedData
+    const { action } = validatedData
     
     // Check if recommendation exists
     const recommendation = await prisma.recommendation.findUnique({
