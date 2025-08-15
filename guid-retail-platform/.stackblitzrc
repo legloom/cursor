@@ -1,0 +1,11 @@
+{
+  "installDependencies": true,
+  "startCommand": "npm run dev",
+  "env": {
+    "DATABASE_PROVIDER": "sqlite",
+    "DATABASE_URL": "file:./prisma/dev.db",
+    "NEXTAUTH_SECRET": "stackblitz-demo-secret-key-2024",
+    "NEXTAUTH_URL": "https://stackblitz.com",
+    "NEXT_PUBLIC_APP_URL": "https://stackblitz.com"
+  }
+}
