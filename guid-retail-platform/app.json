@@ -1,0 +1,48 @@
+{
+  "name": "Guid Retail Analytics Platform",
+  "description": "A comprehensive retail analytics platform that captures in-store customer searches and turns them into actionable insights",
+  "repository": "https://github.com/yourusername/guid-retail-platform",
+  "logo": "https://guid-retail.vercel.app/logo.png",
+  "keywords": ["retail", "analytics", "nextjs", "prisma", "ai", "recommendations", "search"],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "DATABASE_PROVIDER": {
+      "description": "Database provider (postgresql for production)",
+      "value": "postgresql"
+    },
+    "DATABASE_URL": {
+      "description": "PostgreSQL database connection string",
+      "required": true
+    },
+    "NEXTAUTH_SECRET": {
+      "description": "Secret for NextAuth.js (minimum 32 characters)",
+      "generator": "secret"
+    },
+    "NEXTAUTH_URL": {
+      "description": "Your app URL for authentication",
+      "required": true
+    },
+    "NEXT_PUBLIC_APP_URL": {
+      "description": "Public app URL for frontend",
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql:mini"
+    }
+  ],
+  "scripts": {
+    "postdeploy": "npx prisma db push && npm run db:seed"
+  }
+}
